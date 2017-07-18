@@ -5,8 +5,9 @@
 #
 # Parameters:
 #  - $mode (enforcing|permissive|disabled) - sets the operating state for SELinux.
-#  - $type (targeted|minimum|mls) - sets SELinux policy.
+#  - $type (targeted|minimum|mls|strict) - sets SELinux policy.
 #  - $manage_package (boolean) - Whether or not to manage the SELinux management package.
+#  - $manage_relabel (boolean) - Whether or not to manage the .autorelabel file
 #  - $package_name (string) - sets the name of the selinux management package.
 #  - $sx_mod_dir (directory) - sets the operating sx_mod_dir for SELinux.
 #
@@ -24,6 +25,7 @@ class selinux::config (
   $type           = $::selinux::type,
   $sx_mod_dir     = $::selinux::sx_mod_dir,
   $manage_package = $::selinux::manage_package,
+  $manage_relabel = $::selinux::manage_relabel,
   $package_name   = $::selinux::package_name,
 ) {
 
@@ -61,17 +63,19 @@ class selinux::config (
 
     # a complete relabeling is required when switching from disabled to
     # permissive or enforcing. Ensure the autorelabel trigger file is created.
-    if $mode in ['enforcing','permissive'] and
+    if $manage_relabel {
+      if $mode in ['enforcing','permissive'] and
       !$::selinux {
-      file { '/.autorelabel':
-        ensure  => 'file',
-        owner   => 'root',
-        group   => 'root',
-        content => "# created by puppet for disabled to ${mode} switch\n",
-      }
-    } else {
-      file { '/.autorelabel':
-        ensure => absent,
+        file { '/.autorelabel':
+          ensure  => 'file',
+          owner   => 'root',
+          group   => 'root',
+          content => "# created by puppet for disabled to ${mode} switch\n",
+        }
+      } else {
+        file { '/.autorelabel':
+          ensure => absent,
+        }
       }
     }
 

@@ -12,6 +12,7 @@ class selinux::params {
   $mode           = undef
   $type           = undef
   $manage_package = true
+  $manage_relabel = true
 
   if $::operatingsystemmajrelease {
     $os_maj_release = $::operatingsystemmajrelease

@@ -37,6 +37,7 @@ class selinux (
   $makefile       = $::selinux::params::makefile,
   $manage_package = $::selinux::params::manage_package,
   $package_name   = $::selinux::params::package_name,
+  $manage_relabel = $::selinux::params::manage_relabel,
 
   ### START Hiera Lookups ###
   $boolean        = undef,
