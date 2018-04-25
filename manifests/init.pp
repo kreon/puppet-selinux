@@ -35,14 +35,14 @@
 # @param exec_restorecon Hash of selinux::exec_restorecon resource parameters
 #
 class selinux (
-  Optional[Enum['enforcing', 'permissive', 'disabled']] $mode = $::selinux::params::mode,
-  Optional[Enum['targeted', 'minimum', 'mls']] $type          = $::selinux::params::type,
-  Stdlib::Absolutepath $refpolicy_makefile                    = $::selinux::params::refpolicy_makefile,
-  Boolean $manage_package                                     = $::selinux::params::manage_package,
-  String $package_name                                        = $::selinux::params::package_name,
-  String $refpolicy_package_name                              = $::selinux::params::refpolicy_package_name,
-  Stdlib::Absolutepath $module_build_root                     = $::selinux::params::module_build_root,
-  Enum['refpolicy', 'simple'] $default_builder                = 'simple',
+  Optional[Enum['enforcing', 'permissive', 'disabled']] $mode  = $::selinux::params::mode,
+  Optional[Enum['strict', 'targeted', 'minimum', 'mls']] $type = $::selinux::params::type,
+  Stdlib::Absolutepath $refpolicy_makefile                     = $::selinux::params::refpolicy_makefile,
+  Boolean $manage_package                                      = $::selinux::params::manage_package,
+  String $package_name                                         = $::selinux::params::package_name,
+  String $refpolicy_package_name                               = $::selinux::params::refpolicy_package_name,
+  Stdlib::Absolutepath $module_build_root                      = $::selinux::params::module_build_root,
+  Enum['refpolicy', 'simple'] $default_builder                 = 'simple',
 
   ### START Hiera Lookups ###
   Optional[Hash] $boolean         = undef,
